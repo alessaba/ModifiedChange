@@ -25,3 +25,10 @@ class ViewController: NSViewController {
 
 }
 
+func changeDate(filepath : String, date : String){
+	let process = Process()
+	process.launchPath = "/usr/bin/touch"
+	process.arguments = ["-mt", date, filepath]
+	process.launch()
+}
+
