@@ -10,19 +10,24 @@ import Cocoa
 
 class ViewController: NSViewController {
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		// Do any additional setup after loading the view.
+	@IBOutlet weak var fileField: NSTextField!
+	@IBOutlet weak var dateField: NSTextField!
+	@IBOutlet weak var changeButton: NSButton!
+	
+	@IBAction func changeBtnPressed(_ sender: Any) {
+		let dateValue = dateField.stringValue
+		.replacingOccurrences(of: "/", with: "")
+		.replacingOccurrences(of: ":", with: "")
+		.replacingOccurrences(of: " ", with: "")
+		
+		let filepath = fileField.stringValue
+			.replacingOccurrences(of: " ", with: "\\ ")
+		
+		changeDate(filepath: filepath, date: dateValue)
+		
+		changeButton.contentTintColor = .green
 	}
-
-	override var representedObject: Any? {
-		didSet {
-		// Update the view, if already loaded.
-		}
-	}
-
-
+	
 }
 
 func changeDate(filepath : String, date : String){
