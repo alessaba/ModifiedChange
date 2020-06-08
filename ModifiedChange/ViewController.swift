@@ -11,21 +11,22 @@ import Cocoa
 class ViewController: NSViewController {
 
 	@IBOutlet weak var fileField: NSTextField!
-	@IBOutlet weak var dateField: NSTextField!
+	
+	@IBOutlet weak var yearField: NSTextField!
+	@IBOutlet weak var monthField: NSTextField!
+	@IBOutlet weak var dayField: NSTextField!
+	@IBOutlet weak var hourField: NSTextField!
+	@IBOutlet weak var minuteField: NSTextField!
+	
 	@IBOutlet weak var changeButton: NSButton!
 	
 	@IBAction func changeBtnPressed(_ sender: Any) {
-		let dateValue = dateField.stringValue
-		.replacingOccurrences(of: "/", with: "")
-		.replacingOccurrences(of: ":", with: "")
-		.replacingOccurrences(of: " ", with: "")
-		
 		let filepath = fileField.stringValue
 			.replacingOccurrences(of: " ", with: "\\ ")
 		
-		changeDate(filepath: filepath, date: dateValue)
+		let dateValue = String(yearField.stringValue.dropFirst(2)) + monthField.stringValue + dayField.stringValue + hourField.stringValue + minuteField.stringValue
 		
-		changeButton.contentTintColor = .green
+		changeDate(filepath: filepath, date: dateValue)
 	}
 	
 }
