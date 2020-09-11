@@ -26,15 +26,26 @@ class ViewController: NSViewController {
 		
 		let dateValue = String(yearField.stringValue.dropFirst(2)) + monthField.stringValue + dayField.stringValue + hourField.stringValue + minuteField.stringValue
 		
-		changeDate(filepath: filepath, date: dateValue)
+		let alert = NSAlert()
+		
+		if (changeDate(filepath: filepath, date: dateValue) == 0){
+			alert.messageText = "Done!"
+		} else {
+			alert.messageText = "Error!"
+		}
+		
+		alert.beginSheetModal(for: NSApplication.shared.keyWindow! , completionHandler: nil)
 	}
 	
 }
 
-func changeDate(filepath : String, date : String){
+func changeDate(filepath : String, date : String) -> Int {
 	let process = Process()
 	process.launchPath = "/usr/bin/touch"
 	process.arguments = ["-mt", date, filepath]
 	process.launch()
+	process.waitUntilExit()
+	
+	return Int(process.terminationStatus)
 }
 
