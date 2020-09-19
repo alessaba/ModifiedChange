@@ -8,6 +8,11 @@
 
 import Cocoa
 
+struct Result {
+	let code : Int
+	let output : String
+}
+
 class ViewController: NSViewController {
 
 	@IBOutlet weak var fileField: NSTextField!
@@ -28,10 +33,12 @@ class ViewController: NSViewController {
 		
 		let alert = NSAlert()
 		
-		if (changeDate(filepath: filepath, date: dateValue) == 0){
+		let scriptResult = changeDate(filepath: filepath, date: dateValue)
+		if (scriptResult.code == 0){
 			alert.messageText = "Done!"
 		} else {
 			alert.messageText = "Error!"
+			alert.informativeText = "You are not allowed to access this directory or it does not exixt"
 		}
 		
 		alert.beginSheetModal(for: NSApplication.shared.keyWindow! , completionHandler: nil)
@@ -39,13 +46,16 @@ class ViewController: NSViewController {
 	
 }
 
-func changeDate(filepath : String, date : String) -> Int {
+func changeDate(filepath : String, date : String) -> Result {
 	let process = Process()
 	process.launchPath = "/usr/bin/touch"
 	process.arguments = ["-mt", date, filepath]
+	//process.standardOutput = outPipe
 	process.launch()
 	process.waitUntilExit()
 	
-	return Int(process.terminationStatus)
+	let ret = Result(code: Int(process.terminationStatus), output: "")
+	
+	return ret
 }
 
